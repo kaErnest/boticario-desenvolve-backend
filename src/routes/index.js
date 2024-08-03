@@ -4,7 +4,7 @@ import itens from "./itensRoutes.js";
 
 const routes = (app) => {
   app.route("/").get((req, res) => {
-    res.status(200).send ({titulo: "Loja Comestico Solamigo."});
+    res.status(200).send ({titulo: "Loja de Cosméticos Solamigo."});
   }); 
 
   app.use(
