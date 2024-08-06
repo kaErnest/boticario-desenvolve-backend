@@ -6,7 +6,7 @@ const router = express.Router();
 
 router
   .get("/itens", ItemController.listarItens, paginar)
-  .get("/itens/busca", ItemController.listarItemPorFiltro)
+  .get("/itens/busca", ItemController.listarItemPorFiltro, paginar)
   .get("/itens/:id", ItemController.listarItemPorId)
   .post("/itens", ItemController.cadastrarItem)
   .put("/itens/:id", ItemController.atualizarItem)
