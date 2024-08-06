@@ -71,20 +71,37 @@ class ItemController {
 
   static  listarItemPorFiltro = async (req, res, next) => {
     try {
-      const { nome, preco } = req.query;
-
-      const busca = {};
-
-      if(nome) busca.nome = { $regex: nome, $options: "i"};
-      if(preco) busca.preco = preco;
-
-      const itensResultado = await itens.find(busca);
-      
-      res.status(200).send(itensResultado);
+      const busca = await processaBuscaItens(req.query);
+  
+      if (busca !== null) {
+        const itensResultado = itens
+          .find(busca);
+  
+        req.resultado = itensResultado;
+  
+        next();
+      } else {
+        res.status(200).send([]);
+      }
+  
     } catch (erro) {
       next(erro);
     }
-  };
-};
+  }; 
+}
+
+async function processaBuscaItens(parametros) {
+
+  const { nome, preco } = parametros;
+
+  let busca = {};
+
+  if (nome) busca.nome = { $regex: nome, $options: "i" };
+
+  if (preco) busca.preco = preco;
+
+  return busca;
+
+}
 
 export default ItemController;
