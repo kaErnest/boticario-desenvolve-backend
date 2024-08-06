@@ -7,7 +7,7 @@ class KitController {
     try {
       const buscaKits =  kits.find();
 
-      res.resultado = buscaKits;
+      req.resultado = buscaKits;
 
       next();
     } catch (erro) {
@@ -85,7 +85,7 @@ class KitController {
           .find(busca)
           .populate("item");
    
-        res.resultado = kitsResultado;
+        req.resultado = kitsResultado;
 
         next();
       } else {
