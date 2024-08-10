@@ -15,7 +15,9 @@ const kitSchema = new mongoose.Schema(
       required: [true, "O item é obrigatório"]
     },
     preco: { type: Number, required: [true, "O preço é obrigatório"] },
-  });
+  },
+  { versionKey: false } // Remove o campo __v
+);
 
 const kits = mongoose.model("kits", kitSchema);
 
