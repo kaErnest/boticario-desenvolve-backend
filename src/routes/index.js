@@ -1,6 +1,7 @@
 import express from "express";
 import kits from "./kitsRoutes.js";
 import itens from "./itensRoutes.js";
+import uploadRoutes from "./uploadRoutes.js"; 
 
 const routes = (app) => {
   app.route("/").get((req, res) => {
@@ -10,7 +11,8 @@ const routes = (app) => {
   app.use(
     express.json(),
     kits, 
-    itens
+    itens,
+    uploadRoutes
   );
 };
 
