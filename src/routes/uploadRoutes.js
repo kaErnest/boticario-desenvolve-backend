@@ -4,6 +4,12 @@ import upload from "../middlewares/upload.js";
 
 const router = express.Router();
 
-router.post("/upload", upload.single("image"), PictureController.uploadImage);
+router
+  .post("/upload", upload.single("image"), PictureController.uploadImage)
+  .get("/picture", PictureController.getAllImages)
+  .get("/picture/:id", PictureController.getImageById)
+  .put("/picture/:id", PictureController.updateImage)
+  .delete("/picture/:id", PictureController.deleteImage);
+
 
 export default router;

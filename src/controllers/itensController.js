@@ -5,7 +5,7 @@ class ItemController {
 
   static listarItens =  async (req, res, next) => {
     try {
-      const itensResultado = itens.find();
+      const itensResultado =  itens.find().populate("imagem");
 
       req.resultado = itensResultado;
 
@@ -18,7 +18,7 @@ class ItemController {
   static listarItemPorId = async (req, res, next) => {
     try {
       const id = req.params.id;
-      const itemResultado = await itens.findById(id);
+      const itemResultado =  itens.findById(id).populate("imagem");
       if(itemResultado !== null) {
         res.status(200).send(itemResultado);
       } else {
