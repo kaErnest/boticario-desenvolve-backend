@@ -5,7 +5,7 @@ import upload from "../middlewares/upload.js";
 const router = express.Router();
 
 router
-  .post("/upload", upload.single("image"), PictureController.uploadImage)
+  .post("/uploads", upload.single("image"), PictureController.uploadImage)
   .get("/picture", PictureController.getAllImages)
   .get("/picture/:id", PictureController.getImageById)
   .put("/picture/:id", PictureController.updateImage)

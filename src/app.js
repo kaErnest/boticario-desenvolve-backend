@@ -21,6 +21,9 @@ app.use(cors());
 app.use(express.json());
 routes(app);
 
+app.use("/uploads", express.static("uploads"));
+
+
 app.use(manipulador404);
 
 app.use(manipuladorDeErros);  
