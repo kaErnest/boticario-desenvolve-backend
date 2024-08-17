@@ -5,7 +5,7 @@ class KitController {
 
   static  listarKits = async (req, res, next) => {
     try {
-      const buscaKits =  kits.find();
+      const buscaKits = kits.find().populate("item", "nome descricao").populate("image");
 
       req.resultado = buscaKits;
 
