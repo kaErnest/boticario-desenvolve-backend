@@ -1,31 +1,36 @@
-import mongoose from "mongoose";
 import { afterEach, beforeEach, expect, describe, it } from "@jest/globals";
+import "dotenv/config";
 import app from "../../../src/app.js";
 import request from "supertest";
 
-let server; 
+let server;
 
 beforeEach(async () => {
   const port = 3000;
   server = app.listen(port);
-  await mongoose.connect(process.env.DB_CONNECTION_STRING);
 });
 
 afterEach(async () => {
-  await mongoose.connection.dropDatabase();
-  await mongoose.connection.close();
   server.close();
 });
 
 describe("GET em /itens", () => {
-  it("Deve retornar ok", async () => {
-    const resposta = await request(app)
+  it("Deve retornar status 200", async () => {
+    const response = await request(app)
       .get("/itens")
       .set("Accept", "application/json")
-      .expect("content-type", /json/)
-      .expect(200);
+      .expect("Content-Type", /json/);
 
-    // expect(resposta.body).toEqual(true);
+    expect(response.status).toBe(200); // Corrigido para verificar o status da resposta
+  });
+
+  it("Deve ser um array", async () => {
+    const response = await request(app)
+      .get("/itens")
+      .set("Accept", "application/json")
+      .expect("Content-Type", /json/);
+
+    expect(Array.isArray(response.body)).toBe(true);
   });
 });
 
