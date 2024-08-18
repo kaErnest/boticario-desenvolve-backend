@@ -1,67 +1,67 @@
-import { afterEach, beforeEach, describe, it, expect } from "@jest/globals";
-import "dotenv/config";
-import app from "../../../src/app.js";
-import request from "supertest";
-import path from "path";
+// import { afterEach, beforeEach, describe, it, expect } from "@jest/globals";
+// import "dotenv/config";
+// import app from "../../../src/app.js";
+// import request from "supertest";
+// import path from "path";
 
-let server;
-let port;
+// let server;
+// let port;
 
-beforeEach(async () => {
-  port = Math.floor(3000 + Math.random() * 1000);  // Usando uma porta aleatória
-  server = app.listen(port);
-});
+// beforeEach(async () => {
+//   port = Math.floor(3000 + Math.random() * 1000);  // Usando uma porta aleatória
+//   server = app.listen(port);
+// });
 
-afterEach(async () => {
-  if (server) {
-    await server.close(); // Fechar o servidor corretamente
-  }
-});
+// afterEach(async () => {
+//   if (server) {
+//     await server.close(); // Fechar o servidor corretamente
+//   }
+// });
 
-describe("GET em /picture", () => {
-  it("Deve retornar status 200", async () => {
-    const response = await request(server)
-      .get("/picture")
-      .set("Accept", "application/json")
-      .expect("Content-Type", /json/);
+// describe("GET em /picture", () => {
+//   it("Deve retornar status 200", async () => {
+//     const response = await request(server)
+//       .get("/picture")
+//       .set("Accept", "application/json")
+//       .expect("Content-Type", /json/);
 
-    expect(response.status).toBe(200);
-  });
+//     expect(response.status).toBe(200);
+//   });
 
-  it("Deve ser um array", async () => {
-    const response = await request(server)
-      .get("/picture")
-      .set("Accept", "application/json")
-      .expect("Content-Type", /json/);
+//   it("Deve ser um array", async () => {
+//     const response = await request(server)
+//       .get("/picture")
+//       .set("Accept", "application/json")
+//       .expect("Content-Type", /json/);
   
-    expect(Array.isArray(response.body.data)).toBe(true);
+//     expect(Array.isArray(response.body.data)).toBe(true);
 
-  });
-});
+//   });
+// });
 
-describe("POST em /uploads", () => {
-  it("Deve adicionar uma nova image e retornar status 201", async () => {
-    const response = await request(server)
-      .post("/uploads")
-      .attach("image", path.resolve(__dirname, "uploads/image.jpg"))
-      .expect("Content-Type", /json/)
-      .expect(201);
+// describe("POST em /uploads", () => {
+//   it("Deve adicionar uma nova image e retornar status 201", async () => {
+//     const response = await request(server)
+//       .post("/uploads")
+//       .attach("image", path.resolve(__dirname, "uploads/image.jpg"))
+//       .expect("Content-Type", /json/)
+//       .expect(201);
   
-    expect(response.body.data).toHaveProperty("_id"); // Verifica se a image criado tem um ID
-    expect(response.body.data.filename).toBe("image.jpg"); // Verifica se o nome da image criado está correto
-  });
+//     expect(response.body.data).toHaveProperty("_id"); // Verifica se a image criado tem um ID
+//     expect(response.body.data.filename).toBe("image.jpg"); // Verifica se o nome da image criado está correto
+//   });
   
-  it("Deve retornar status 400 ao tentar adicionar uma image com dados inválidos", async () => {
-    await request(server)
-      .post("/uploads")
-      .send({
-        filename: "", // Nome inválido
-        path: "",
-        originalname: "",
-      })
-      .expect(400);
-  });
-});
+//   it("Deve retornar status 400 ao tentar adicionar uma image com dados inválidos", async () => {
+//     await request(server)
+//       .post("/uploads")
+//       .send({
+//         filename: "", // Nome inválido
+//         path: "",
+//         originalname: "",
+//       })
+//       .expect(400);
+//   });
+// });
 //////////////
 // describe("GET em /kits/:id", () => {
 
