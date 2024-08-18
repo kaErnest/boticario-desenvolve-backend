@@ -18,8 +18,8 @@ class ItemController {
   static listarItemPorId = async (req, res, next) => {
     try {
       const id = req.params.id;
-      const itemResultado =  itens.findById(id).populate("image");
-      if(itemResultado !== null) {
+      const itemResultado = await itens.findById(id).populate("image"); // Adicionei 'await' aqui
+      if (itemResultado !== null) {
         res.status(200).send(itemResultado);
       } else {
         next(new NaoEncontrado("Id do Item não localizado."));
@@ -28,6 +28,7 @@ class ItemController {
       next(erro);
     }
   };
+  
 
 
   static cadastrarItem = async (req, res, next) => {

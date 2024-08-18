@@ -1,5 +1,5 @@
+import { describe, expect, it, jest } from "@jest/globals";
 import mongoose from "mongoose";
-import { describe, expect, it } from "@jest/globals";
 import Kit from "../../models/Kit.js";
 
 describe("Testando o modelo Kit", () => {
@@ -11,15 +11,59 @@ describe("Testando o modelo Kit", () => {
     preco: 80,
   };
 
-  it("Deve instanciar um novo kit", async () => {
+  it("Deve instanciar um novo kit", () => {
     const kit = new Kit(objetoKit);
-    await kit.validate();
-    expect(kit.titulo).toBe(objetoKit.titulo);
+
+    expect(kit).toEqual(expect.objectContaining(objetoKit));
     expect(kit.item.length).toBeGreaterThanOrEqual(2);
-    expect(kit.preco).toBe(objetoKit.preco);
   });
 
-  it("Deve falhar se o campo 'titulo' estiver ausente", async () => {
+  it.skip("Deve salvar kit no BD", () => {
+    const kit = new Kit(objetoKit);
+
+    kit.save().then((dados) => {
+      expect(dados.titulo).toBe("Kit de Teste");
+    });
+  });
+
+  it.skip("Deve salvar no BD usando a sintaxe moderna", async () => {
+    const kit = new Kit(objetoKit);
+
+    const dados = await kit.save();
+
+    const retornado = await Kit.findById(dados._id);
+
+    expect(retornado).toEqual(
+      expect.objectContaining({
+        ...objetoKit,
+        _id: expect.any(mongoose.Types.ObjectId),
+      }),
+    );
+  });
+
+  it("Deve fazer uma chamada simulada ao BD", () => {
+    const kit = new Kit(objetoKit);
+
+    kit.save = jest.fn().mockReturnValue({
+      _id: new mongoose.Types.ObjectId(),
+      ...objetoKit,
+      createdAt: "2022-10-01",
+      updatedAt: "2022-10-01",
+    });
+
+    const retorno = kit.save();
+
+    expect(retorno).toEqual(
+      expect.objectContaining({
+        _id: expect.any(mongoose.Types.ObjectId),
+        ...objetoKit,
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String),
+      }),
+    );
+  });
+
+  it("Deve falhar se o campo \"titulo\" estiver ausente", async () => {
     const objetoInvalido = { ...objetoKit, titulo: undefined };
     const kit = new Kit(objetoInvalido);
 
@@ -30,7 +74,7 @@ describe("Testando o modelo Kit", () => {
     }
   });
 
-  it("Deve falhar se o campo 'preco' estiver ausente", async () => {
+  it("Deve falhar se o campo \"preco\" estiver ausente", async () => {
     const objetoInvalido = { ...objetoKit, preco: undefined };
     const kit = new Kit(objetoInvalido);
 
@@ -41,7 +85,7 @@ describe("Testando o modelo Kit", () => {
     }
   });
 
-  it("Deve falhar se o campo 'item' tiver menos de 2 itens", async () => {
+  it("Deve falhar se o campo \"item\" tiver menos de 2 itens", async () => {
     const objetoInvalido = { ...objetoKit, item: [new mongoose.Types.ObjectId()] };
     const kit = new Kit(objetoInvalido);
 

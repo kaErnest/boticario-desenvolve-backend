@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose",
+    "test:config": "node --experimental-vm-modules node_modules/.bin/jest --testMatch='**/src/test/config/dbConnect.test.js'"
   },
   "keywords": [],
   "author": "",
