@@ -1,43 +1,62 @@
-// import { afterEach, beforeEach, describe, it, expect } from "@jest/globals";
-// import "dotenv/config";
-// import app from "../../../src/app.js";
-// import request from "supertest";
-// import path from "path";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, it, expect } from "@jest/globals";
+import "dotenv/config";
+import app from "../../../src/app.js";
+import request from "supertest";
+import mongoose from "mongoose";
+import { MongoMemoryServer } from "mongodb-memory-server";
 
-// let server;
-// let port;
+let server;
+let mongoServer;
+let port;
+let serverInstance;
 
-// beforeEach(async () => {
-//   port = Math.floor(3000 + Math.random() * 1000);  // Usando uma porta aleatória
-//   server = app.listen(port);
-// });
+beforeAll(async () => {
+  // Configura o MongoMemoryServer
+  mongoServer = await MongoMemoryServer.create();
+  const uri = mongoServer.getUri();
+  await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+});
 
-// afterEach(async () => {
-//   if (server) {
-//     await server.close(); // Fechar o servidor corretamente
-//   }
-// });
+beforeEach(async () => {
+  port = Math.floor(3000 + Math.random() * 1000);  // Usando uma porta aleatória
+  serverInstance = app.listen(port);
+  server = request.agent(`http://localhost:${port}`);
+});
 
-// describe("GET em /picture", () => {
-//   it("Deve retornar status 200", async () => {
-//     const response = await request(server)
-//       .get("/picture")
-//       .set("Accept", "application/json")
-//       .expect("Content-Type", /json/);
+afterEach(async () => {
+  if (serverInstance) {
+    await serverInstance.close(); // Fechar o servidor corretamente
+  }
+});
 
-//     expect(response.status).toBe(200);
-//   });
+afterAll(async () => {
+  // Desconecta o MongoDB e para o MongoMemoryServer
+  await mongoose.connection.close();
+  await mongoServer.stop();
+});
 
-//   it("Deve ser um array", async () => {
-//     const response = await request(server)
-//       .get("/picture")
-//       .set("Accept", "application/json")
-//       .expect("Content-Type", /json/);
-  
-//     expect(Array.isArray(response.body.data)).toBe(true);
+describe("GET em /picture", () => {
+  it("Deve retornar status 200", async () => {
+    const response = await server
+      .get("/picture")
+      .set("Accept", "application/json")
+      .expect("Content-Type", /json/)
+      .expect(200);
 
-//   });
-// });
+    expect(response.status).toBe(200);
+  });
+
+  it("Deve ser um array", async () => {
+    const response = await server
+      .get("/picture")
+      .set("Accept", "application/json")
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    expect(Array.isArray(response.body.data)).toBe(true);
+  });
+});
+
 
 // describe("POST em /uploads", () => {
 //   it("Deve adicionar uma nova image e retornar status 201", async () => {
@@ -62,7 +81,7 @@
 //       .expect(400);
 //   });
 // });
-//////////////
+// ////////////
 // describe("GET em /kits/:id", () => {
 
 
