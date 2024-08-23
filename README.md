@@ -2,14 +2,14 @@
 Bem-vindo ao projeto Solamigo, a loja online de cosméticos especializada em produtos de proteção solar e cuidados para pets e seus donos. Este backend foi desenvolvido como parte do curso Desenvolve, administrado pela escola de Tecnologia Alura, onde aprendi conceitos fundamentais de desenvolvimento web e a construção de APIs com Node.js e MongoDB. 🐾
 
 ## Índice
-- [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Descrição 📄](#Descrição 📄)
-- [Funcionalidades](#Funcionalidades)
-- [Instalação](#instalação)
-- [Configuração do Banco de Dados](#configuração-do-banco-de-dados)
-- [Execução](#execução)
-- [Testes](#testes)
-- [Contribuição](#contribuição)
+- Tecnologias Utilizadasx
+- Descrição 
+- Funcionalidades
+- Instalação
+- Configuração do Banco de Dados
+- Execução
+- Testes
+- Contribuiçãox
 
 ## Descrição 📄
 O backend do projeto Solamigo é responsável por gerenciar os dados da loja online, como produtos e kits, bem como a lógica de negócio para a aplicação. A API RESTful foi desenvolvida com Node.js e Express.js, e utiliza o MongoDB para armazenar as informações dos produtos e kits.
