@@ -3,7 +3,7 @@ Bem-vindo ao projeto Solamigo, a loja online de cosméticos especializada em pro
 
 ## Índice
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Descrição](#Descrição)
+- [Descrição 📄](#Descrição 📄)
 - [Funcionalidades](#Funcionalidades)
 - [Instalação](#instalação)
 - [Configuração do Banco de Dados](#configuração-do-banco-de-dados)
